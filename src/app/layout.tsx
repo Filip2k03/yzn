@@ -20,10 +20,35 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
+const siteUrl = "https://yzn-iota.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Yuzana, RN — VIP Clearance | Incident #408",
+  metadataBase: new URL(siteUrl),
+  title: "Yuzana, RN — VIP Clearance",
   description:
-    "A hyper-luxurious mobile-first apology microsite for Nurse Yuzana — peace treaty inbound.",
+    "For my favorite girl — a soft, luxurious apology for Nurse Yuzana. Swipe to forgive.",
+  applicationName: "Yuzana VIP Clearance",
+  authors: [{ name: "Your Bestie" }],
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "Yuzana VIP Clearance",
+    title: "Yuzana, RN — VIP Clearance",
+    description:
+      "For my favorite girl — a soft, luxurious apology for Nurse Yuzana. Swipe to forgive.",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yuzana, RN — VIP Clearance",
+    description:
+      "For my favorite girl — a soft, luxurious apology for Nurse Yuzana. Swipe to forgive.",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Yuzana",
+  },
 };
 
 export const viewport: Viewport = {
@@ -31,7 +56,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#09090B",
+  themeColor: "#10080C",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
