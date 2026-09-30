@@ -52,52 +52,63 @@ export function playLeopardRoar() {
   const ctx = getCtx();
   const t = ctx.currentTime;
 
+  // Deep growl sweep
   tone(ctx, {
     type: "sawtooth",
-    freq: 110,
-    endFreq: 45,
+    freq: 95,
+    endFreq: 38,
     start: t,
-    duration: 0.55,
-    peak: 0.32,
+    duration: 0.75,
+    peak: 0.38,
   });
   tone(ctx, {
     type: "square",
-    freq: 55,
-    endFreq: 28,
-    start: t + 0.04,
-    duration: 0.7,
-    peak: 0.22,
+    freq: 48,
+    endFreq: 22,
+    start: t + 0.05,
+    duration: 0.9,
+    peak: 0.28,
+  });
+  // Mid roar bite
+  tone(ctx, {
+    type: "sawtooth",
+    freq: 160,
+    endFreq: 70,
+    start: t + 0.12,
+    duration: 0.45,
+    peak: 0.18,
   });
   tone(ctx, {
     type: "triangle",
-    freq: 180,
-    endFreq: 70,
-    start: t + 0.08,
-    duration: 0.35,
+    freq: 220,
+    endFreq: 90,
+    start: t + 0.18,
+    duration: 0.4,
     peak: 0.12,
   });
 
-  // Noise burst for grit
-  const bufferSize = ctx.sampleRate * 0.4;
+  // Gritty noise burst
+  const bufferSize = ctx.sampleRate * 0.55;
   const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const data = buffer.getChannelData(0);
   for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.6);
   }
   const noise = ctx.createBufferSource();
   noise.buffer = buffer;
   const noiseGain = ctx.createGain();
   const filter = ctx.createBiquadFilter();
   filter.type = "bandpass";
-  filter.frequency.setValueAtTime(400, t);
-  filter.frequency.exponentialRampToValueAtTime(120, t + 0.35);
-  noiseGain.gain.setValueAtTime(0.18, t);
-  noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+  filter.frequency.setValueAtTime(520, t);
+  filter.Q.setValueAtTime(0.8, t);
+  filter.frequency.exponentialRampToValueAtTime(90, t + 0.5);
+  noiseGain.gain.setValueAtTime(0.22, t);
+  noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
   noise.connect(filter);
   filter.connect(noiseGain);
   noiseGain.connect(ctx.destination);
   noise.start(t);
-  noise.stop(t + 0.45);
+  noise.stop(t + 0.6);
 }
 
 /** Soft ambient chime for Gangaw sanctuary. */

@@ -1,83 +1,53 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { LeopardSplash } from "../effects/LeopardSplash";
+import dynamic from "next/dynamic";
 import { SoftOrbs } from "../effects/FloatingHearts";
+import { LeopardSplash } from "../effects/LeopardSplash";
+
+const LeopardScene3D = dynamic(
+  () =>
+    import("../effects/LeopardScene3D").then((m) => m.LeopardScene3D),
+  { ssr: false },
+);
 
 export function Act2Leopard({ active }: { active: boolean }) {
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative flex h-full flex-col justify-center px-5 py-8 sm:px-10">
+    <div className="relative flex h-full flex-col justify-end px-5 pb-24 pt-8 sm:justify-center sm:px-10 sm:pb-8">
       <SoftOrbs />
+      <LeopardScene3D active={active} />
       <LeopardSplash active={active} />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(16,8,12,0.55)_78%)]" />
+
       <motion.div
         key={active ? "on" : "off"}
-        initial={{ opacity: 0, scale: 0.92, y: 16 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 mx-auto w-full max-w-lg text-center"
       >
         <motion.p
           className="font-mono text-[10px] tracking-[0.3em] text-blush sm:text-xs"
-          animate={reduce ? undefined : { letterSpacing: ["0.3em", "0.38em", "0.3em"] }}
+          animate={
+            reduce ? undefined : { letterSpacing: ["0.3em", "0.38em", "0.3em"] }
+          }
           transition={{ duration: 3, repeat: Infinity }}
         >
-          THE STORM PASSED THROUGH US
+          3D LEOPARD ROAR
         </motion.p>
 
-        <h2 className="mt-4 font-display text-3xl tracking-[0.1em] text-gold-soft sm:text-5xl">
-          <motion.span
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="block"
-          >
-            You were hurt.
-          </motion.span>
-          <motion.span
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.32 }}
-            className="mt-2 block text-blush"
-          >
-            I felt that.
-          </motion.span>
+        <h2 className="mt-3 font-display text-3xl tracking-[0.1em] text-gold-soft sm:text-5xl">
+          <span className="block">You were hurt.</span>
+          <span className="mt-2 block text-blush">I felt that roar.</span>
         </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mx-auto mt-8 max-w-md font-sans text-sm leading-relaxed text-blush-soft/90 sm:text-base"
-        >
+        <p className="mx-auto mt-6 max-w-md font-sans text-sm leading-relaxed text-blush-soft/90 sm:text-base">
           You save lives for a living. I got lost in work and left you hanging.
           Your feelings mattered more than anything on my screen — and I am
           here now, fully.
-        </motion.p>
-
-        <motion.div
-          className="mt-8 flex justify-center gap-3 text-blush/80"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-        >
-          {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              className="text-lg"
-              animate={reduce ? undefined : { y: [0, -6, 0], scale: [1, 1.15, 1] }}
-              transition={{
-                duration: 1.4,
-                delay: i * 0.2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              ♥
-            </motion.span>
-          ))}
-        </motion.div>
+        </p>
       </motion.div>
     </div>
   );
